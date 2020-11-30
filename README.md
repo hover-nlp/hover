@@ -38,6 +38,11 @@ This will evaluate the model on both the training set and dev set because we nee
 
 ## 2. Sentence Selection
 ### Training Sentence-selection Model
+* First, start the Stanford Corernlp in the background. We use Corenlp to split the sentences:
+```
+java -mx4g -cp "*" edu.stanford.nlp.pipeline.StanfordCoreNLPServer -annotators "tokenize,ssplit,pos,lemma,parse,sentiment" -port 9000 -timeout 30000
+```
+
 * Prepare the data by running:
 ```
 python prepare_data_for_sent_retrieval.py --data_split=dev --sent_retrieve_range=5

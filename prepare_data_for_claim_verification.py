@@ -56,7 +56,7 @@ def main():
     wiki_db = connect_to_db(os.path.join(args.data_dir, 'wiki_wo_links.db'))
 
     args.data_dir = os.path.join(args.data_dir, args.dataset_name)
-    hover_data = json.load(open(os.path.join(args.data_dir, 'hover_'+args.data_split+'_release_v1.0.json')))
+    hover_data = json.load(open(os.path.join(args.data_dir, 'hover_'+args.data_split+'_release_v1.1.json')))
 
     args.sent_retrieval_output_dir = os.path.join('out', args.dataset_name, args.sent_retrieval_output_dir, 'sent_retrieval', \
         'checkpoint-'+str(args.sent_retrieval_model_global_step))

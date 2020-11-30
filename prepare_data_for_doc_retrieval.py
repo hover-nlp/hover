@@ -50,7 +50,7 @@ def main():
 
     args.data_dir = os.path.join(args.data_dir, args.dataset_name)
 
-    hover_data = json.load(open(os.path.join(args.data_dir, 'hover_'+args.data_split+'_release_v1.0.json')))
+    hover_data = json.load(open(os.path.join(args.data_dir, 'hover_'+args.data_split+'_release_v1.1.json')))
     tfidf_retrieved_doc = json.load(open(os.path.join(args.data_dir, 'tfidf_retrieved', args.data_split+'_tfidf_doc_retrieval_results.json')))
 
     uid_to_tfidf_retrieved_doc = {}

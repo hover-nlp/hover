@@ -7,6 +7,8 @@ import collections
 import unicodedata
 import logging
 import nltk
+from StanfordNLP import StanfordNLP
+corenlp = StanfordNLP()
 
 
 def connect_to_db(db_path):
@@ -51,12 +53,16 @@ def main():
         default=900,
         type=int
     )
+    parser.add_argument(
+        "--oracle",
+        action="store_true"
+    )
 
     args = parser.parse_args()
     wiki_db = connect_to_db(os.path.join(args.data_dir, 'wiki_wo_links.db'))
 
     args.data_dir = os.path.join(args.data_dir, args.dataset_name)
-    hover_data = json.load(open(os.path.join(args.data_dir, 'hover_'+args.data_split+'_release_v1.0.json')))
+    hover_data = json.load(open(os.path.join(args.data_dir, 'hover_'+args.data_split+'_release_v1.1.json')))
 
     args.doc_retrieval_output_dir = os.path.join('out', args.dataset_name, args.doc_retrieval_output_dir, 'doc_retrieval', \
         'checkpoint-'+str(args.doc_retrieval_model_global_step))
@@ -91,7 +97,13 @@ def main():
                 para = wiki_db.execute("SELECT * FROM documents WHERE id=(?)", \
                                                 (unicodedata.normalize('NFD', title),)).fetchall()[0]
                 para_title, para = list(para)
-                para_sents = nltk.sent_tokenize(para)
+                para_parse = corenlp.annotate(para)
+                para_sents = []
+                for sent_parse in para_parse['sentences']:
+                    start_idx = sent_parse['tokens'][0]['characterOffsetBegin']
+                    end_idx = sent_parse['tokens'][-1]['characterOffsetEnd']
+                    sent = para[start_idx:end_idx]
+                    para_sents.append(sent)
                 context.append([title, para_sents])
 
             dp = {'id': uid, 'claim': claim, 'context': context, 'supporting_facts': supporting_facts}

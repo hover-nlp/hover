@@ -1,16 +1,11 @@
 # !/bin/bash
 set -eu -o pipefail
 
-mkdir -p data
 cd data
 
 wget https://nlp.cs.unc.edu/data/hover/wiki_wo_links.db
 
-mkdir -p hover
 cd hover
-wget https://hover-nlp.github.io/data/hover/hover_train_release_v1.0.json
-wget https://hover-nlp.github.io/data/hover/hover_dev_release_v1.0.json
-wget https://hover-nlp.github.io/data/hover/hover_test_release_v1.0.json
 
 mkdir -p doc_retrieval
 mkdir -p sent_retrieval
